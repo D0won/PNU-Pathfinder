@@ -6,12 +6,12 @@ import {
   contests,
   languages,
   semesters,
-} from '../data/mockData.js';
-import CreditSummary from '../components/CreditSummary.jsx';
-import GraduationRequirements from '../components/GraduationRequirements.jsx';
-import Section from '../components/Section.jsx';
-import SemesterCard from '../components/SemesterCard.jsx';
-import TableSection from '../components/TableSection.jsx';
+} from '../data/mockData';
+import CreditSummary from '../components/CreditSummary';
+import GraduationRequirements from '../components/GraduationRequirements';
+import Section from '../components/Section';
+import SemesterCard from '../components/SemesterCard';
+import TableSection from '../components/TableSection';
 
 export default function DataPage() {
   const [openSemesters, setOpenSemesters] = useState({});

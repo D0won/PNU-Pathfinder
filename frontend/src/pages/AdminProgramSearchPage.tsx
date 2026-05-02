@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import { BookOpen, ChevronDown, LibraryBig, Pencil, Plus, Save, Search, Trash2, X } from 'lucide-react';
-import { createAcademicProgram, deleteAcademicProgram, getAcademicPrograms, updateAcademicProgram } from '../services/adminApi.js';
+import { createAcademicProgram, deleteAcademicProgram, getAcademicPrograms, updateAcademicProgram } from '../services/adminApi';
 
 const categoryGroups = [
   { title: '효원핵심교양', matches: ['효원핵심교양'] },
@@ -584,7 +584,7 @@ function CourseCategory({ title, courses }) {
   );
 }
 
-function TextInput({ label, value, onChange, placeholder, type = 'text', required = false, min }) {
+function TextInput({ label, value, onChange, placeholder, type = 'text', required = false, min = undefined }: { label: string; value: string | number; onChange: (value: string) => void; placeholder: string; type?: string; required?: boolean; min?: string }) {
   return (
     <label className="block">
       <span className="mb-2 block text-sm font-medium text-slate-300">{label}</span>

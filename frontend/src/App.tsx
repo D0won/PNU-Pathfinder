@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { FileText, Zap } from 'lucide-react';
-import Header from './components/Header.jsx';
-import Sidebar from './components/Sidebar.jsx';
-import AdminInfoPage from './pages/AdminInfoPage.jsx';
-import AdminProgramSearchPage from './pages/AdminProgramSearchPage.jsx';
-import AuthPage from './pages/AuthPage.jsx';
-import ChatPage from './pages/ChatPage.jsx';
-import DataPage from './pages/DataPage.jsx';
-import PlaceholderPage from './pages/PlaceholderPage.jsx';
+import Header from './components/Header';
+import Sidebar from './components/Sidebar';
+import AdminInfoPage from './pages/AdminInfoPage';
+import AdminProgramSearchPage from './pages/AdminProgramSearchPage';
+import AuthPage from './pages/AuthPage';
+import ChatPage from './pages/ChatPage';
+import DataPage from './pages/DataPage';
+import PlaceholderPage from './pages/PlaceholderPage';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('chat');

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { KeyRound, UserRoundPlus } from 'lucide-react';
-import { login, signup } from '../services/authApi.js';
-import { adminLogin } from '../services/adminApi.js';
+import { login, signup } from '../services/authApi';
+import { adminLogin } from '../services/adminApi';
 
 const initialForm = {
   name: '',

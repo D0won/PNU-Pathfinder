@@ -1,6 +1,6 @@
 import { CheckCircle } from 'lucide-react';
-import { requirements } from '../data/mockData.js';
-import Section from './Section.jsx';
+import { requirements } from '../data/mockData';
+import Section from './Section';
 
 export default function GraduationRequirements() {
   return (

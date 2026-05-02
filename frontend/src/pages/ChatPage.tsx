@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { Send } from 'lucide-react';
-import { aiResponses } from '../data/mockData.js';
-import ChatMessage from '../components/ChatMessage.jsx';
-import Recommendations from '../components/Recommendations.jsx';
-import TypingIndicator from '../components/TypingIndicator.jsx';
-import Welcome from '../components/Welcome.jsx';
+import { aiResponses } from '../data/mockData';
+import ChatMessage from '../components/ChatMessage';
+import Recommendations from '../components/Recommendations';
+import TypingIndicator from '../components/TypingIndicator';
+import Welcome from '../components/Welcome';
 
 export default function ChatPage() {
   const [messages, setMessages] = useState([]);

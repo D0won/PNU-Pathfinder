@@ -1,4 +1,4 @@
-import { recommendations } from '../data/mockData.js';
+import { recommendations } from '../data/mockData';
 
 export default function Recommendations() {
   return (

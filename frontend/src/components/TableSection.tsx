@@ -1,4 +1,4 @@
-import Section from './Section.jsx';
+import Section from './Section';
 
 export default function TableSection({ title, icon, headers, rows, compact = false }) {
   return (
