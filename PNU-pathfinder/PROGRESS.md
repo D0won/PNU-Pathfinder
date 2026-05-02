@@ -56,11 +56,17 @@
 PNU-pathfinder/
 ├── PROGRESS.md              ← 지금 이 파일 (전체 현황)
 ├── docs/
+│   ├── agent-architecture.md  ← AI Agent MCP/Skills 설정 (핵심)
 │   ├── stage-1-submission.md  ← PPT/Word 생성 진행상황
 │   ├── stage-2-backend.md     ← 백엔드 구현 진행상황
 │   ├── stage-3-frontend.md    ← 프론트엔드 구현 진행상황
-│   ├── stage-4-deploy.md      ← 배포 진행상황
-│   └── stage-5-advanced.md    ← 고도화 진행상황
+│   └── stage-4-deploy.md      ← 배포 진행상황
+├── scripts/
+│   ├── generate_ppt.py      ← PPT 생성 (12슬라이드, Agent 아키텍처 포함)
+│   └── generate_word.py     ← Word 생성 (10섹션, Agent 섹션 포함)
+├── output/
+│   ├── 발표자료_PNU-Pathfinder.pptx
+│   └── 개발계획서_PNU-Pathfinder.docx
 ├── backend/
 │   └── src/                 ← FastAPI 소스 (auth + admin 완성)
 └── frontend/

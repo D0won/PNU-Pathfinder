@@ -302,7 +302,77 @@ add_bullet_box(slide, dev_items, Inches(7.0), Inches(2.3),
 
 
 # ════════════════════════════════════════════════════════
-# SLIDE 7 — 시스템 아키텍처
+# SLIDE 7 — AI Agent 협업 아키텍처 (핵심 차별화)
+# ════════════════════════════════════════════════════════
+slide = prs.slides.add_slide(BLANK)
+add_rect(slide, 0, 0, W, Inches(1.4), PNU_BLUE)
+add_text(slide, "AI Agent 협업 개발 방식", Inches(0.6), Inches(0.3),
+         Inches(11), Inches(0.7), font_size=32, bold=True, color=WHITE)
+add_text(slide, "Claude Multi-Agent  ×  MCP (Model Context Protocol)",
+         Inches(0.6), Inches(0.95), Inches(11), Inches(0.4),
+         font_size=16, color=ACCENT)
+
+add_rect(slide, 0, Inches(1.4), W, H - Inches(1.4), DARK)
+
+# PM Agent 박스 (중앙 상단)
+add_rect(slide, Inches(4.5), Inches(1.6), Inches(4.3), Inches(1.1), PNU_BLUE)
+add_text(slide, "PM Agent", Inches(4.5), Inches(1.65), Inches(4.3), Inches(0.45),
+         font_size=18, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+add_text(slide, "기획 · 문서 · 코드리뷰\nMCP: filesystem  github",
+         Inches(4.5), Inches(2.1), Inches(4.3), Inches(0.5),
+         font_size=12, color=ACCENT, align=PP_ALIGN.CENTER)
+
+# 화살표 텍스트
+add_text(slide, "태스크 분배  ↙                    ↘",
+         Inches(2.5), Inches(2.85), Inches(8.5), Inches(0.4),
+         font_size=16, color=SLATE, align=PP_ALIGN.CENTER)
+
+# Backend Agent 박스
+add_rect(slide, Inches(0.4), Inches(3.4), Inches(5.6), Inches(2.8), rgb(0x1E, 0x29, 0x3B))
+add_rect(slide, Inches(0.4), Inches(3.4), Inches(5.6), Inches(0.5), ACCENT)
+add_text(slide, "Backend Agent  (Claude Sonnet 4.6)",
+         Inches(0.5), Inches(3.43), Inches(5.4), Inches(0.42),
+         font_size=15, bold=True, color=DARK, align=PP_ALIGN.CENTER)
+
+be_items = [
+    "FastAPI · DB · OpenAI 연동",
+    "MCP: filesystem  /  postgres  /  github",
+    "  └ postgres: DB 스키마 직접 조회·검증",
+    "Skills: claude-api  /  simplify",
+]
+for i, item in enumerate(be_items):
+    add_text(slide, item,
+             Inches(0.6), Inches(3.98 + i * 0.5), Inches(5.2), Inches(0.45),
+             font_size=13, color=WHITE if i < 2 else SLATE)
+
+# Frontend Agent 박스
+add_rect(slide, Inches(7.3), Inches(3.4), Inches(5.6), Inches(2.8), rgb(0x1E, 0x29, 0x3B))
+add_rect(slide, Inches(7.3), Inches(3.4), Inches(5.6), Inches(0.5), rgb(0x10, 0xB9, 0x81))
+add_text(slide, "Frontend Agent  (Claude Sonnet 4.6)",
+         Inches(7.4), Inches(3.43), Inches(5.4), Inches(0.42),
+         font_size=15, bold=True, color=DARK, align=PP_ALIGN.CENTER)
+
+fe_items = [
+    "React UI · 컴포넌트 · API 연동",
+    "MCP: filesystem  /  github  /  puppeteer",
+    "  └ puppeteer: UI 자동 스크린샷 검증",
+    "Skills: simplify",
+]
+for i, item in enumerate(fe_items):
+    add_text(slide, item,
+             Inches(7.5), Inches(3.98 + i * 0.5), Inches(5.2), Inches(0.45),
+             font_size=13, color=WHITE if i < 2 else SLATE)
+
+# 하단 핵심 포인트
+add_rect(slide, Inches(0.4), Inches(6.4), Inches(12.5), Inches(0.06), ACCENT)
+add_text(slide,
+         "worktree 격리로 충돌 없는 병렬 작업  ·  모든 작업이 git commit으로 자동 추적  ·  PM Agent가 PR 자동 리뷰",
+         Inches(0.4), Inches(6.55), Inches(12.5), Inches(0.5),
+         font_size=14, color=ACCENT, align=PP_ALIGN.CENTER)
+
+
+# ════════════════════════════════════════════════════════
+# SLIDE 8 (구 7) — 시스템 아키텍처
 # ════════════════════════════════════════════════════════
 slide = prs.slides.add_slide(BLANK)
 add_rect(slide, 0, 0, W, Inches(1.4), PNU_BLUE)
