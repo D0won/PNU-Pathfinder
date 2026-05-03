@@ -4,27 +4,27 @@
 
 ---
 
-## 1. Branch Strategy (Git Flow–inspired)
+## 1. Branch Strategy (Current Repository)
 
 ```
 main
- └── develop          ← integration branch; always deployable
-      ├── feature/*   ← new features
-      ├── fix/*        ← bug fixes
-      ├── docs/*       ← documentation only
-      └── chore/*      ← tooling, deps, CI
+ ├── feature/*   ← new features
+ ├── fix/*       ← bug fixes
+ ├── docs/*      ← documentation only
+ └── chore/*     ← tooling, deps, CI
 ```
+
+There is currently no `develop` branch in the remote repository. If the team creates one later, update this document before changing the workflow.
 
 ### Branch Rules
 
 | Branch | Purpose | Who merges | Direct push? |
 |---|---|---|---|
 | `main` | Production-ready releases | PM / Architect via PR | **No** |
-| `develop` | Latest integrated work | Any member via PR | **No** |
-| `feature/<name>` | Feature development | Author via PR → develop | Yes |
-| `fix/<name>` | Bug fixes | Author via PR → develop | Yes |
-| `docs/<name>` | Docs only | Author via PR → develop | Yes |
-| `chore/<name>` | Tooling / CI | Author via PR → develop | Yes |
+| `feature/<name>` | Feature development | Author via PR → main | Yes |
+| `fix/<name>` | Bug fixes | Author via PR → main | Yes |
+| `docs/<name>` | Docs only | Author via PR → main | Yes |
+| `chore/<name>` | Tooling / CI | Author via PR → main | Yes |
 
 ### Naming Convention
 
@@ -73,7 +73,7 @@ chore(deps): upgrade langchain to 0.2.5
 
 Before opening a PR, confirm:
 
-- [ ] Branch is up to date with `develop` (`git rebase origin/develop`)
+- [ ] Branch is up to date with `main` (`git fetch origin` then `git rebase origin/main`)
 - [ ] All linting passes locally (`ruff check .` / `pnpm lint`)
 - [ ] Type checks pass (`mypy .` / `pnpm type-check`)
 - [ ] New endpoints are documented in `backend/API-Specs.md`
@@ -89,10 +89,9 @@ Require **at least 1 approval** before merging. The author cannot self-approve.
 
 ## 4. Release Flow
 
-1. Accumulate features in `develop` until a release milestone is reached.
-2. Create a PR from `develop` → `main` titled `release: vX.Y.Z`.
-3. After merge, tag the commit: `git tag -a vX.Y.Z -m "Release vX.Y.Z"`.
-4. Push the tag: `git push origin vX.Y.Z`.
+1. Merge reviewed PRs into `main`.
+2. When a release milestone is reached, tag the current main commit: `git tag -a vX.Y.Z -m "Release vX.Y.Z"`.
+3. Push the tag: `git push origin vX.Y.Z`.
 
 ---
 
@@ -103,17 +102,16 @@ Require **at least 1 approval** before merging. The author cannot self-approve.
 git clone https://github.com/blackest21/PNU-Pathfinder.git
 cd PNU-Pathfinder
 
-# 2. Set the develop branch as your default working branch
-git checkout develop
-
-# 3. Create your feature branch
+# 2. Create your feature branch from main
+git checkout main
+git pull --rebase origin main
 git checkout -b feature/your-feature-name
 
-# 4. Install pre-commit hooks (backend)
+# 3. Install pre-commit hooks (backend, once configured)
 pip install pre-commit
 pre-commit install
 
-# 5. Copy environment file
-cp .env.example .env
+# 4. Copy environment file
+cp backend/.env.example backend/.env
 # Fill in your local values
 ```

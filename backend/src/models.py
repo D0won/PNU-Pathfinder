@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import CheckConstraint, DateTime, ForeignKey, Integer, String, UniqueConstraint, func
+from sqlalchemy import Boolean, CheckConstraint, DateTime, ForeignKey, Integer, String, UniqueConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
@@ -17,6 +17,8 @@ class User(Base):
     major: Mapped[str | None] = mapped_column(String(100), nullable=True)
     career_goal: Mapped[str | None] = mapped_column(String(100), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+    course_records: Mapped[list["CourseRecord"]] = relationship(back_populates="user", cascade="all, delete-orphan")
 
 
 class AcademicProgram(Base):
@@ -80,3 +82,24 @@ class GraduationRequirement(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     program: Mapped[AcademicProgram] = relationship(back_populates="graduation_requirement")
+
+
+class CourseRecord(Base):
+    __tablename__ = "course_records"
+    __table_args__ = (
+        UniqueConstraint("user_id", "course_number", "semester", name="uq_course_records_user_course_semester"),
+        CheckConstraint("credits > 0", name="ck_course_records_credits_positive"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    course_number: Mapped[str] = mapped_column(String(30), nullable=False)
+    course_name: Mapped[str] = mapped_column(String(150), nullable=False)
+    completion_category: Mapped[str] = mapped_column(String(30), nullable=False)
+    credits: Mapped[int] = mapped_column(Integer, nullable=False)
+    grade: Mapped[str | None] = mapped_column(String(5), nullable=True)
+    semester: Mapped[str] = mapped_column(String(20), nullable=False)
+    is_retake: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, server_default="false")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+    user: Mapped[User] = relationship(back_populates="course_records")

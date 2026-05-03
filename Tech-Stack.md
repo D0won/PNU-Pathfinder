@@ -19,6 +19,7 @@
 | **Auth** | PyJWT `2.12.1` + passlib[bcrypt] `1.7.4` | `backend/src/auth/` |
 | **Password Hashing** | bcrypt `4.3.0` | `backend/requirements.txt` |
 | **Config** | python-dotenv `1.2.2` | `backend/.env.example` |
+| **API Docs** | FastAPI OpenAPI / Swagger UI | `http://localhost:8000/docs` |
 
 > **Note:** The ORM is synchronous (standard `Session`, not `AsyncSession`). Do not introduce async SQLAlchemy without a team decision and updating this table.
 
@@ -47,11 +48,12 @@
 | React Router / Next navigation | Not used — `useState` routing in `App.tsx` |
 | React Query / SWR | Not used — raw `fetch` in service files |
 | Zustand / Redux | Not used — `localStorage` + React state |
-| LangChain / RAG pipeline | Not yet implemented (planned) |
-| Qdrant / vector DB | Not yet implemented (planned) |
+| LangChain / RAG pipeline | Not yet implemented (planned after structured backend APIs) |
+| Qdrant / vector DB | Not yet implemented; pgvector vs Qdrant not finalized |
 | Alembic (migrations) | Not used — raw SQL files in `backend/migrations/` |
 | Docker Compose | Not yet added |
 | Async SQLAlchemy | Not used — sync ORM |
+| Spring Boot / JPA / QueryDSL | Not used — current backend is FastAPI + SQLAlchemy |
 
 ---
 
@@ -79,9 +81,13 @@
 ```bash
 # backend/.env  (copy from backend/.env.example)
 DATABASE_URL=postgresql+psycopg:///pnu_pathfinder
+JWT_SECRET=pnu-pathfinder-local-dev-secret
+ADMIN_ID=root
+ADMIN_PASSWORD=3011
+ADMIN_TOKEN=pnu-pathfinder-admin-local-token
 ```
 
-> The admin credentials (`root` / `3011`, static token `pnu-pathfinder-admin-local-token`) are hardcoded in `backend/src/admin/router.py`. These must be moved to environment variables before any deployment.
+> Development defaults exist in code for local convenience. Production deployments must provide strong values through environment variables.
 
 ---
 
@@ -93,7 +99,7 @@ No migration framework (e.g., Alembic) is in use. Apply schema changes by runnin
 psql -d pnu_pathfinder -f backend/migrations/<filename>.sql
 ```
 
-Files are numbered sequentially: `001_initial_schema.sql`, `002_...sql`, etc.
+Files are numbered sequentially: `001_initial_schema.sql`, `002_course_records.sql`, etc.
 
 ---
 
@@ -104,5 +110,7 @@ Files are numbered sequentially: `001_initial_schema.sql`, `002_...sql`, etc.
 | REST API endpoints | Backend | [backend/API-Specs.md](backend/API-Specs.md) |
 | DB schema | Backend | `backend/migrations/` |
 | Frontend service layer | Frontend | `frontend/src/services/` |
+| Backend design/status | Backend | [backend/README.md](backend/README.md) |
+| Overall progress | PM / Integration | [PROGRESS.md](PROGRESS.md) |
 
 > The FastAPI OpenAPI schema is auto-generated at `GET /docs` (Swagger UI) and `GET /openapi.json`. Frontend service files must stay in sync with backend endpoint changes.

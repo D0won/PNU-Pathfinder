@@ -13,18 +13,30 @@ backend/
 ├── src/
 │   ├── main.py              ← FastAPI app, CORS config, router registration
 │   ├── database.py          ← SQLAlchemy engine + Session factory + Base
-│   ├── models.py            ← ORM models (User, AcademicProgram, CurriculumCourse, GraduationRequirement)
+│   ├── models.py            ← ORM models (User, AcademicProgram, CurriculumCourse, GraduationRequirement, CourseRecord)
 │   ├── auth/
 │   │   ├── __init__.py
 │   │   ├── router.py        ← POST /api/auth/signup, /login; GET /api/auth/me
 │   │   ├── schemas.py       ← Pydantic models: UserCreate, UserLogin, UserRead, Token
 │   │   └── service.py       ← create_user, authenticate_user, JWT encode/decode
-│   └── admin/
+│   ├── admin/
+│   │   ├── __init__.py
+│   │   ├── router.py        ← CRUD /api/admin/programs; POST /api/admin/login
+│   │   └── schemas.py       ← Pydantic models: AcademicProgramCreate/Read, etc.
+│   ├── courses/
+│   │   ├── __init__.py
+│   │   ├── router.py        ← POST /api/courses; GET /api/courses/me; DELETE /api/courses/{id}
+│   │   └── schemas.py       ← Pydantic models: CourseRecordCreate/Read
+│   ├── graduation/
+│   │   ├── __init__.py
+│   │   ├── router.py        ← GET /api/graduation/progress, /recommend
+│   │   └── schemas.py       ← Pydantic models for progress/recommendation responses
+│   └── services/
 │       ├── __init__.py
-│       ├── router.py        ← CRUD /api/admin/programs; POST /api/admin/login
-│       └── schemas.py       ← Pydantic models: AcademicProgramCreate/Read, etc.
+│       └── graduation.py    ← graduation progress and recommendation logic
 ├── migrations/
-│   └── 001_initial_schema.sql  ← Raw SQL DDL (no Alembic)
+│   ├── 001_initial_schema.sql  ← Raw SQL DDL (no Alembic)
+│   └── 002_course_records.sql  ← Course records table
 ├── seeds/
 │   └── 001_academic_programs.sql ← Sample data for local dev
 ├── .env.example
@@ -55,6 +67,7 @@ backend/
 - All timestamps are `TIMESTAMPTZ`, defaulting to `now()`.
 - Relationships use `Mapped[...]` typed annotations (SQLAlchemy 2.0 style).
 - Cascade deletes are defined both in ORM (`cascade="all, delete-orphan"`) and in the SQL schema (`ON DELETE CASCADE`).
+- Current ORM models are kept in one file because the domain is still small. Split into `src/models/` only after crawler/chat/vector metadata models are added.
 
 ---
 
@@ -82,6 +95,9 @@ createdb pnu_pathfinder
 
 # Apply initial schema
 psql -d pnu_pathfinder -f backend/migrations/001_initial_schema.sql
+
+# Apply later schema changes
+psql -d pnu_pathfinder -f backend/migrations/002_course_records.sql
 
 # Optionally seed data
 psql -d pnu_pathfinder -f backend/seeds/001_academic_programs.sql
@@ -134,3 +150,22 @@ Interactive API docs: `http://localhost:8000/docs`
 - The frontend stores the JWT in `localStorage` under key `pnu-pathfinder-token`.
 - The student token is sent as `Authorization: Bearer <token>` on authenticated requests.
 - See [../frontend/Frontend-Tech.md](../frontend/Frontend-Tech.md) for how the frontend consumes these endpoints.
+
+---
+
+## 9. Data Ingestion Plan
+
+Crawler output should be split by data type.
+
+- Structured academic data goes to PostgreSQL:
+  - academic programs
+  - curriculum courses
+  - graduation requirements
+  - year/major-specific requirement rules
+- Unstructured documents go to VectorDB:
+  - notices
+  - PDF/HTML guides
+  - scholarship, internship, and recruitment documents
+  - academic regulation text
+
+Graduation calculation must use PostgreSQL, not VectorDB. Vector search is for AI context retrieval, while graduation progress is deterministic rule calculation.

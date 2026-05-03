@@ -48,7 +48,8 @@ Register a new student account.
   "password": "string",
   "department": "string",
   "major": "string | null",
-  "career_goal": "string | null"
+  "career_goal": "string | null",
+  "privacy_consent": true
 }
 ```
 
@@ -62,8 +63,7 @@ Register a new student account.
     "student_id": "string",
     "department": "string",
     "major": "string | null",
-    "career_goal": "string | null",
-    "created_at": "ISO 8601 datetime"
+    "career_goal": "string | null"
   }
 }
 ```
@@ -98,8 +98,7 @@ Return the currently authenticated user. Requires `Authorization: Bearer <token>
   "student_id": "string",
   "department": "string",
   "major": "string | null",
-  "career_goal": "string | null",
-  "created_at": "ISO 8601 datetime"
+  "career_goal": "string | null"
 }
 ```
 
@@ -198,6 +197,125 @@ Delete a program and all related courses/requirements (cascade).
 
 ---
 
+### Course Records — `/api/courses`
+
+All course record endpoints require student authentication with `Authorization: Bearer <token>`.
+
+#### POST `/api/courses`
+
+Add a course record for the current student.
+
+**Request body**
+```json
+{
+  "course_number": "string",
+  "course_name": "string",
+  "completion_category": "string",
+  "credits": 3,
+  "grade": "A+ | A0 | B+ | ... | null",
+  "semester": "2024-1",
+  "is_retake": false
+}
+```
+
+**Response** `201 Created`
+```json
+{
+  "id": 1,
+  "course_number": "string",
+  "course_name": "string",
+  "completion_category": "string",
+  "credits": 3,
+  "grade": "string | null",
+  "semester": "string",
+  "is_retake": false,
+  "created_at": "ISO 8601 datetime"
+}
+```
+
+**Error** `409 Conflict` — duplicate `(user_id, course_number, semester)`.
+
+---
+
+#### GET `/api/courses/me`
+
+Return all course records for the current student.
+
+**Response** `200 OK` — array of course record objects.
+
+---
+
+#### DELETE `/api/courses/{record_id}`
+
+Delete one course record owned by the current student.
+
+**Response** `204 No Content`.
+
+---
+
+### Graduation — `/api/graduation`
+
+All graduation endpoints require student authentication with `Authorization: Bearer <token>`.
+
+#### GET `/api/graduation/progress`
+
+Calculate graduation progress for the current student using their department/major and saved course records.
+
+**Response** `200 OK`
+```json
+{
+  "program_id": 1,
+  "department": "string",
+  "major": "string | null",
+  "curriculum_year": 2024,
+  "categories": {
+    "liberal_required": {
+      "required": 10,
+      "earned": 6,
+      "remaining": 4,
+      "percent": 60.0
+    }
+  },
+  "total": {
+    "required": 133,
+    "earned": 42,
+    "remaining": 91,
+    "percent": 31.6
+  },
+  "completed_course_numbers": ["AB2001051"]
+}
+```
+
+**Error** `404 Not Found` — no matching academic program or graduation requirement.
+
+---
+
+#### GET `/api/graduation/recommend`
+
+Return recommended next courses and retake candidates for the current student.
+
+**Response** `200 OK`
+```json
+{
+  "program_id": 1,
+  "next_courses": [
+    {
+      "id": 1,
+      "course_number": "AB2001051",
+      "course_name_ko": "인공지능",
+      "course_name_en": "ARTIFICIAL INTELLIGENCE",
+      "completion_category": "전공선택",
+      "recommended_semester": "3-1",
+      "credits": 3,
+      "reason": "아직 충족하지 못한 졸업요건 영역의 과목입니다."
+    }
+  ],
+  "retake_courses": []
+}
+```
+
+---
+
 ### Health — `/api/health`
 
 #### GET `/api/health`
@@ -238,7 +356,7 @@ Liveness check. No auth required.
 | 400 | Bad request / validation failure |
 | 401 | Missing or invalid auth token |
 | 404 | Resource not found |
-| 409 | Duplicate program `(department, major, curriculum_year)` |
+| 409 | Duplicate program or duplicate course record |
 | 422 | Pydantic validation error (malformed body) |
 
 ---
@@ -249,9 +367,10 @@ These endpoints do not exist yet. They will be added when the RAG pipeline is im
 
 | Method | Path | Description |
 |---|---|---|
-| `POST` | `/api/v1/chat` | Send a question, receive a streamed RAG answer with source citations |
-| `GET` | `/api/v1/chat/{session_id}/history` | Retrieve conversation history |
-| `GET` | `/api/v1/documents` | List indexed knowledge-base documents |
+| `POST` | `/api/chat` | Send a question, receive an AI answer using student context and retrieved documents |
+| `GET` | `/api/chat/{session_id}/history` | Retrieve conversation history |
+| `GET` | `/api/documents` | List indexed knowledge-base documents |
+| `POST` | `/api/admin/crawl/run` | Manually run crawler/ingestion from admin panel |
 
 ---
 
@@ -259,4 +378,5 @@ These endpoints do not exist yet. They will be added when the RAG pipeline is im
 
 | Date | Change | Author |
 |---|---|---|
+| 2026-05-03 | Added course records and graduation APIs | Codex |
 | 2026-05-02 | Rewritten from actual source code | PM |

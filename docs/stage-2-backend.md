@@ -1,6 +1,6 @@
 # STAGE 2 — Backend 구현
 
-**상태**: ⏳ 대기 (STAGE 1 완료 후 시작)
+**상태**: 🚧 진행 중
 
 ---
 
@@ -12,20 +12,21 @@
 ## 체크리스트
 
 ### Phase 2-A: 수강 이력 (CourseRecord)
-- [ ] `backend/migrations/002_course_records.sql` 생성
-- [ ] `backend/src/models.py`에 `CourseRecord` 모델 추가
-- [ ] `backend/src/courses/` 라우터 생성
-  - [ ] `POST /api/courses` — 수강 이력 입력
-  - [ ] `GET /api/courses/me` — 내 수강 이력 조회
-  - [ ] `DELETE /api/courses/{id}` — 수강 이력 삭제
-- [ ] `backend/src/courses/schemas.py` 작성
+- [x] `backend/migrations/002_course_records.sql` 생성
+- [x] `backend/src/models.py`에 `CourseRecord` 모델 추가
+- [x] `backend/src/courses/` 라우터 생성
+  - [x] `POST /api/courses` — 수강 이력 입력
+  - [x] `GET /api/courses/me` — 내 수강 이력 조회
+  - [x] `DELETE /api/courses/{id}` — 수강 이력 삭제
+- [x] `backend/src/courses/schemas.py` 작성
 
 ### Phase 2-B: 졸업요건 계산 엔진
-- [ ] `backend/src/services/graduation.py` 작성
-  - [ ] `calculate_progress(user_id)` — 영역별 충족률 계산
-  - [ ] `recommend_next(user_id)` — 다음 학기 추천 과목
-  - [ ] `recommend_retake(user_id)` — 재수강 우선순위
-- [ ] `GET /api/graduation/progress` 엔드포인트 추가
+- [x] `backend/src/services/graduation.py` 작성
+  - [x] `calculate_progress(user_id)` — 영역별 충족률 계산
+  - [x] `recommend_next(user_id)` — 다음 학기 추천 과목
+  - [x] `recommend_retake(user_id)` — 재수강 우선순위
+- [x] `GET /api/graduation/progress` 엔드포인트 추가
+- [x] `GET /api/graduation/recommend` 엔드포인트 추가
 
 ### Phase 2-C: OpenAI 챗봇
 - [ ] `pip install openai` 및 `requirements.txt` 업데이트

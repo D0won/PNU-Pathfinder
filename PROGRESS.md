@@ -7,7 +7,7 @@
 
 ## 프로젝트 목적
 제7회 PNU 창의융합AI해커톤 (자유주제 / 융합트랙) 출품
-- **예선 마감**: 2026-05-11 (D-9)
+- **예선 마감**: 2026-05-11 (D-8, 2026-05-03 기준)
 - **최종 발표**: 2026-08-28 (농심호텔)
 - **제출물**: 참가신청서 + 개발계획서 + PPT + 발표동영상
 
@@ -18,10 +18,10 @@
 | 단계 | 내용 | 상태 | 파일 |
 |---|---|---|---|
 | **STAGE 1** | 예선 제출 자료 생성 (PPT + Word) | ✅ 완료 | [stage-1-submission.md](docs/stage-1-submission.md) |
-| **STAGE 2** | Backend 구현 (수강이력 + OpenAI) | 🔄 다음 | [stage-2-backend.md](docs/stage-2-backend.md) |
+| **STAGE 2** | Backend 구현 (수강이력 + 졸업요건 + OpenAI) | 🚧 진행 중 | [stage-2-backend.md](docs/stage-2-backend.md) |
 | **STAGE 3** | Frontend 구현 (대시보드 + 챗봇) | ⏳ 대기 | [stage-3-frontend.md](docs/stage-3-frontend.md) |
 | **STAGE 4** | 배포 (Vercel + VPS) | ⏳ 대기 | [stage-4-deploy.md](docs/stage-4-deploy.md) |
-| **STAGE 5** | 본선 고도화 | ⏳ 대기 | [stage-5-advanced.md](docs/stage-5-advanced.md) |
+| **STAGE 5** | 본선 고도화 | ⏳ 대기 | 세부 문서 미작성 |
 
 ---
 
@@ -32,8 +32,13 @@
 - `output/개발계획서_PNU-Pathfinder.docx` (9섹션, 41KB)
 - **남은 작업**: 팀명·팀원 정보 직접 입력, 발표 동영상 촬영
 
-### 다음 단계: STAGE 2 — Backend 구현
-**시작 방법:** `docs/stage-2-backend.md` 읽고 "STAGE 2 시작해 줘" 입력
+### 현재 단계: STAGE 2 — Backend 구현 🚧
+- 수강 이력 CRUD API 구현 완료
+- 졸업요건 충족률 계산 API 구현 완료
+- 다음 수강 과목/재수강 추천 API 구현 완료
+- 남은 작업: 크롤러/데이터 수집 설계 구현, OpenAI 챗봇/RAG 연동
+
+**이어가기 방법:** `backend/README.md`와 `docs/stage-2-backend.md`를 읽고 미완료 체크리스트부터 진행
 
 ---
 
@@ -68,7 +73,10 @@ PNU-pathfinder/
 │   ├── 발표자료_PNU-Pathfinder.pptx
 │   └── 개발계획서_PNU-Pathfinder.docx
 ├── backend/
-│   └── src/                 ← FastAPI 소스 (auth + admin 완성)
+│   ├── README.md            ← 백엔드 설계/진행표
+│   ├── API-Specs.md         ← 백엔드 API 명세
+│   ├── Backend-Tech.md      ← 백엔드 기술 기준
+│   └── src/                 ← FastAPI 소스 (auth + admin + courses + graduation)
 └── frontend/
     └── src/                 ← React 소스 (UI 틀 완성, mock 데이터)
 ```
@@ -81,9 +89,10 @@ PNU-pathfinder/
 |---|---|
 | 학생 인증 (회원가입/로그인) | ✅ 완성 |
 | 학과별 졸업요건 DB + Admin CRUD | ✅ 완성 |
-| 수강 이력 입력/조회 | ❌ 미구현 |
-| 졸업요건 충족률 계산 로직 | ❌ 미구현 (UI만 mock) |
+| 수강 이력 입력/조회 | ✅ 백엔드 완성 |
+| 졸업요건 충족률 계산 로직 | ✅ 백엔드 완성 |
 | AI 챗봇 (OpenAI 연동) | ❌ 미구현 (UI만 mock) |
-| 수강 추천 로직 | ❌ 미구현 |
+| 수강 추천 로직 | ✅ 백엔드 완성 |
 | What-if 시나리오 | ❌ placeholder |
 | 이력서 생성 | ❌ placeholder |
+| 크롤러/VectorDB ingestion | ❌ 미구현 |

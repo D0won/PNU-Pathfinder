@@ -6,7 +6,10 @@
 
 Academic information at PNU is fragmented across departmental websites, portals, and bulletin boards. Students struggle to find accurate, up-to-date answers about courses, scholarships, deadlines, and administrative procedures.
 
-**PNU-Pathfinder** solves this by ingesting all institutional documents into a unified vector knowledge base and serving precise, source-cited answers through a conversational interface.
+**PNU-Pathfinder** solves this with two layers:
+
+- deterministic academic planning APIs for student records, curriculum data, graduation requirements, and course recommendations
+- a planned RAG layer that retrieves institutional documents and serves source-cited conversational answers
 
 ---
 
@@ -14,10 +17,13 @@ Academic information at PNU is fragmented across departmental websites, portals,
 
 | Feature | Description |
 |---|---|
-| RAG-based Q&A | Retrieves relevant document chunks and generates grounded answers |
-| Source Citations | Every answer links back to its source document |
-| Multi-domain Coverage | Courses, scholarships, facilities, schedules, regulations |
-| Korean / English | Bilingual support for international students |
+| Student Auth | JWT-based signup, login, and current-user lookup |
+| Admin Curriculum Management | Admin CRUD for academic programs, curriculum courses, and graduation requirements |
+| Course Records | Student course history create/list/delete APIs |
+| Graduation Progress | Calculates earned, remaining, and progress percent by requirement category |
+| Course Recommendations | Suggests next courses and retake candidates from the student's progress |
+| RAG-based Q&A | Planned retrieval and grounded answer generation over institutional documents |
+| Source Citations | Planned links back to source documents |
 
 ---
 
@@ -28,6 +34,9 @@ PNU-Pathfinder/
 ├── README.md                  ← You are here
 ├── Tech-Stack.md              ← Canonical technology & version matrix
 ├── CONTRIBUTING.md            ← Git workflow, branch strategy, code standards
+├── CODEX.md                   ← Codex agent working guidelines
+├── CLAUDE.md                  ← Claude agent working guidelines
+├── PROGRESS.md                ← Current project status and stage checklist
 ├── .gitignore
 │
 ├── docs/
@@ -36,6 +45,7 @@ PNU-Pathfinder/
 │   └── Presentation-Materials.md ← Slide outline & script template
 │
 ├── backend/
+│   ├── README.md              ← Backend design notes and implementation checklist
 │   ├── API-Specs.md           ← REST endpoint contracts
 │   └── Backend-Tech.md        ← Server stack, libraries, conventions
 │
@@ -48,15 +58,20 @@ PNU-Pathfinder/
 
 ## Quick Start
 
-> Detailed setup instructions will be added per-service once scaffolding is complete.
-
 ```bash
 # Clone
 git clone https://github.com/blackest21/PNU-Pathfinder.git
 cd PNU-Pathfinder
 
-# See CONTRIBUTING.md for branch strategy before making any changes
+# Backend
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn src.main:app --reload --port 8000
 ```
+
+Interactive API docs are available at `http://localhost:8000/docs` while the backend server is running.
 
 ---
 
@@ -66,7 +81,7 @@ cd PNU-Pathfinder
 |---|---|---|
 | TBD | PM / Architect | Repository structure, documentation, integration |
 | TBD | Backend Engineer | FastAPI server, RAG pipeline, vector DB |
-| TBD | Frontend Engineer | Next.js UI, component library |
+| TBD | Frontend Engineer | React + Vite UI, component library |
 | TBD | ML / Data Engineer | Embedding models, document ingestion |
 
 ---
