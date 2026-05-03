@@ -232,6 +232,17 @@ sketch
 # Local History for Visual Studio Code
 .history/
 
+# Local agent/worktree state
+.claude/
+
+# Office temporary lock files
+~$*
+
+# Generated recovery/review artifacts
+output/*복구됨*.pptx
+output/*_fixed.pptx
+output/*_refactored.pptx
+
 # Built Visual Studio Code Extensions
 *.vsix
 
