@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FileText, Zap } from 'lucide-react';
+import { Zap } from 'lucide-react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import AdminInfoPage from './pages/AdminInfoPage';
@@ -71,9 +71,6 @@ export default function App() {
               icon={Zap}
               text="여러 진로 시나리오를 비교분석할 수 있는 공간입니다"
             />
-          )}
-          {!isAdmin && currentPage === 'resume' && (
-            <PlaceholderPage title="이력서 작성" icon={FileText} text="AI 기반 이력서 자동 작성 도구" />
           )}
           {currentPage === 'login' && <AuthPage mode="login" onSwitchMode={setCurrentPage} onAuthSuccess={handleAuthSuccess} />}
           {currentPage === 'signup' && <AuthPage mode="signup" onSwitchMode={setCurrentPage} onAuthSuccess={handleAuthSuccess} />}

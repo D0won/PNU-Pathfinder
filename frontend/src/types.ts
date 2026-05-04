@@ -6,7 +6,6 @@ export type PageId =
   | 'chat'
   | 'data'
   | 'whatif'
-  | 'resume'
   | 'login'
   | 'signup'
   | 'admin-info'
