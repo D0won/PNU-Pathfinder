@@ -2,7 +2,7 @@ import type { RecommendationItem, RequirementProgress, Semester, TableRow } from
 
 export const aiResponses: string[] = [
   '현재 관심 분야와 학년을 고려했을 때, Google DSC 활동을 추천드려요. 리더십 경험과 기술 역량을 동시에 쌓을 수 있습니다.',
-  '프로젝트 경험을 더 쌓고 싶다면 교내 해커톤 참가를 고려해보세요!',
+  '이력서에 프로젝트 경험을 추가하시면 좋겠어요. 교내 해커톤 참가를 고려해보세요!',
   '취업 준비를 위해 포트폴리오를 먼저 정리하는 것을 추천드립니다. 어떤 분야에 관심이 있으신가요?',
   '부산대 내부 프로그램 중 멘토링 프로그램이 현재 모집 중이에요. 선배와의 네트워킹 기회가 됩니다.',
 ];

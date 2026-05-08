@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Zap } from 'lucide-react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import AdminInfoPage from './pages/AdminInfoPage';
 import AdminProgramSearchPage from './pages/AdminProgramSearchPage';
 import AuthPage from './pages/AuthPage';
+import CalendarPage from './pages/CalendarPage';
 import ChatPage from './pages/ChatPage';
 import DataPage from './pages/DataPage';
-import PlaceholderPage from './pages/PlaceholderPage';
+import GrowthPlanPage from './pages/GrowthPlanPage';
+import ResumePage from './pages/ResumePage';
+import TimetablePage from './pages/TimetablePage';
 import type { AuthResult, PageId, UserSession } from './types';
 
 export default function App() {
@@ -16,6 +18,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState<UserSession | null>(null);
 
   const isAdmin = currentUser?.role === 'admin';
+  const showSidebar = !isAdmin && currentPage === 'chat';
 
   useEffect(() => {
     const savedUser = window.localStorage.getItem('pnu-pathfinder-user');
@@ -61,17 +64,14 @@ export default function App() {
         onNavigate={setCurrentPage}
       />
       <div className="flex flex-1 overflow-hidden">
-        {!isAdmin && <Sidebar isOpen={sidebarOpen} />}
+        {showSidebar && <Sidebar isOpen={sidebarOpen} />}
         <main className="flex-1 flex flex-col overflow-hidden">
           {!isAdmin && currentPage === 'chat' && <ChatPage />}
           {!isAdmin && currentPage === 'data' && <DataPage />}
-          {!isAdmin && currentPage === 'whatif' && (
-            <PlaceholderPage
-              title="What If?"
-              icon={Zap}
-              text="여러 진로 시나리오를 비교분석할 수 있는 공간입니다"
-            />
-          )}
+          {!isAdmin && currentPage === 'whatif' && <GrowthPlanPage />}
+          {!isAdmin && currentPage === 'timetable' && <TimetablePage />}
+          {!isAdmin && currentPage === 'resume' && <ResumePage />}
+          {!isAdmin && currentPage === 'calendar' && <CalendarPage />}
           {currentPage === 'login' && <AuthPage mode="login" onSwitchMode={setCurrentPage} onAuthSuccess={handleAuthSuccess} />}
           {currentPage === 'signup' && <AuthPage mode="signup" onSwitchMode={setCurrentPage} onAuthSuccess={handleAuthSuccess} />}
           {isAdmin && currentPage === 'admin-info' && <AdminInfoPage />}

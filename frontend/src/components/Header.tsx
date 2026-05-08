@@ -1,4 +1,4 @@
-import { GitBranch, IdCard, KeyRound, LibraryBig, LogOut, Menu, UserRoundPlus } from 'lucide-react';
+import { CalendarDays, FileText, GitBranch, IdCard, KeyRound, LibraryBig, LogOut, Menu, Table2, UserRoundPlus } from 'lucide-react';
 import type { AppIcon, PageId, UserSession } from '../types';
 
 interface HeaderProps {
@@ -34,7 +34,10 @@ export default function Header({ currentUser, onLogout, onMenu, onHome, onNaviga
           </>
         ) : (
           <>
-            <NavButton icon={GitBranch} label="What If?" onClick={() => onNavigate('whatif')} />
+            <NavButton icon={GitBranch} label="성장 계획" onClick={() => onNavigate('whatif')} />
+            <NavButton icon={Table2} label="시간표" onClick={() => onNavigate('timetable')} />
+            <NavButton icon={FileText} label="이력서 작성" onClick={() => onNavigate('resume')} />
+            <NavButton icon={CalendarDays} label="달력" onClick={() => onNavigate('calendar')} />
             <div className="mx-1 h-6 w-px bg-slate-700" />
             {currentUser ? (
               <>
